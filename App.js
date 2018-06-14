@@ -1,58 +1,85 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
 
-import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import React, { Component } from 'react'
+import {View, Text, ScrollView} from 'react-native'
+import Swiper from 'react-native-swiper'
+import Drug from './Components/Common/Drug'
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+export default class App extends Component {
 
-type Props = {};
-export default class App extends Component<Props> {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
+  state = {
+    drugList: [
+      {
+        name:'Placeholder1',
+        icon:require('./Images/pills.png')
+      },
+      {
+        name:'Placeholder2',
+        icon:require('./Images/heroin.png')
+      }
+    ]
+  }
+
+  renderDrugList(){
+    return this.state.drugList.map(function(drug, index){
+      console.log(this.state.drugList[index].name)
+      return <Drug key={index} drug={drug} onPress={()=>console.log('item pressed')}/>
+    }.bind(this))
+  }
+
+  render(){
+    return(
+      <View style={styles.mainView}>
+
+
+
+        <ScrollView style={styles.listView}>
+          {this.renderDrugList()}
+        </ScrollView>
+
+
+        <View style={styles.bottomMenuView}>
+          <Swiper showsButtons={false}>
+
+            <View>
+              <Text>Explore</Text>
+            </View>
+
+            <View>
+              <Text>Explore</Text>
+            </View>
+
+          </Swiper>
+        </View>
+
+
       </View>
-    );
+
+    )
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
+const styles = {
+  mainView:{
+    flex:1,
+    flexDirection:'column',
+    justifyContent:'center',
+    alignItems:'center',
+    marginTop:35,
+  },
+  listView:{
+    backgroundColor:'skyblue',
+    width:'100%',
+    height:'80%'
+  },
+  bottomMenuView:{
+    backgroundColor:'steelblue',
+    width:'100%',
+    height:'20%'
+  },
+  swiperSlide: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+    backgroundColor: '#fff',
+  }
+}
