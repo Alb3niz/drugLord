@@ -9,19 +9,18 @@ export default class App extends Component {
   state = {
     drugList: [
       {
-        name:'Placeholder1',
-        icon:require('./Images/pills.png')
-      },
-      {
-        name:'Placeholder2',
-        icon:require('./Images/heroin.png')
+        name:'Cocaine',
+        icon:require('./Images/cocaine.png'),
+        currentPrice:20,
+        priceRise:false,
+        greenArrow:require('./Images/greenArrow.png'),
+        redArrow:require('./Images/redArrow.png')
       }
     ]
   }
 
   renderDrugList(){
     return this.state.drugList.map(function(drug, index){
-      console.log(this.state.drugList[index].name)
       return <Drug key={index} drug={drug} onPress={()=>console.log('item pressed')}/>
     }.bind(this))
   }
@@ -30,12 +29,9 @@ export default class App extends Component {
     return(
       <View style={styles.mainView}>
 
-
-
         <ScrollView style={styles.listView}>
           {this.renderDrugList()}
         </ScrollView>
-
 
         <View style={styles.bottomMenuView}>
           <Swiper showsButtons={false}>
@@ -83,3 +79,68 @@ const styles = {
     backgroundColor: '#fff',
   }
 }
+
+// {
+//   name:'Crack',
+//   icon:require('./Images/crack.png')
+// },
+// {
+//   name:'Ecstasy',
+//   icon:require('./Images/ecstasy.png')
+// },
+// {
+//   name:'Hashish',
+//   icon:require('./Images/hashish.png')
+// },
+// {
+//   name:'Heroin',
+//   icon:require('./Images/heroin.png')
+// },
+// {
+//   name:'Ice',
+//   icon:require('./Images/ice.png')
+// },
+// {
+//   name:'Kat',
+//   icon:require('./Images/kat.png')
+// },
+// {
+//   name:'LSD',
+//   icon:require('./Images/lsd.png')
+// },
+// {
+//   name:'MDA',
+//   icon:require('./Images/mda.png')
+// },
+// {
+//   name:'Morphine',
+//   icon:require('./Images/morphine.png')
+// },
+// {
+//   name:'Mushrooms',
+//   icon:require('./Images/mushrooms.png')
+// },
+// {
+//   name:'Opium',
+//   icon:require('./Images/opium.png')
+// },
+// {
+//   name:'PCP',
+//   icon:require('./Images/pcp.png')
+// },
+// {
+//   name:'Peyote',
+//   icon:require('./Images/peyote.png')
+// },
+// {
+//   name:'Special-K',
+//   icon:require('./Images/specialk.png')
+// },
+// {
+//   name:'Speed',
+//   icon:require('./Images/speed.png')
+// },
+// {
+//   name:'Cannabis',
+//   icon:require('./Images/weed.png')
+// }
