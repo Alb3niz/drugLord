@@ -1,6 +1,5 @@
-
-import React, { Component } from 'react'
-import {View, Text, ScrollView} from 'react-native'
+import React, {Component} from 'react'
+import {View, Text, ScrollView, TouchableOpacity} from 'react-native'
 import Swiper from 'react-native-swiper'
 import Drug from './Components/Common/Drug'
 
@@ -9,75 +8,96 @@ export default class App extends Component {
   state = {
     drugList: [
       {
-        name:'Cocaine',
-        icon:require('./Images/cocaine.png'),
-        currentPrice:20,
-        priceRise:false,
-        greenArrow:require('./Images/greenArrow.png'),
-        redArrow:require('./Images/redArrow.png')
+        name: 'Cocaine',
+        icon: require('./Images/cocaine.png'),
+        currentPrice: 20,
+        priceRise: false,
+        greenArrow: require('./Images/greenArrow.png'),
+        redArrow: require('./Images/redArrow.png')
+      }, {
+        name: 'Crack',
+        icon: require('./Images/crack.png'),
+        currentPrice: 30,
+        priceRise: false,
+        greenArrow: require('./Images/greenArrow.png'),
+        redArrow: require('./Images/redArrow.png')
+      }, {
+        name: 'Ecstasy',
+        icon: require('./Images/ecstasy.png'),
+        currentPrice: 17,
+        priceRise: false,
+        greenArrow: require('./Images/greenArrow.png'),
+        redArrow: require('./Images/redArrow.png')
       }
     ]
   }
 
-  renderDrugList(){
-    return this.state.drugList.map(function(drug, index){
-      return <Drug key={index} drug={drug} onPress={()=>console.log('item pressed')}/>
-    }.bind(this))
+  changePrice() {
+    console.log('asdasdasd')
+    this.setState((previousState) => {
+      previousState.drugList.forEach((drug) => {
+        drug.currentPrice++
+      })
+      return previousState
+    })
   }
+renderDrugList() {
+  return this.state.drugList.map(function(drug, index) {
+    return <Drug key={index} drug={drug} onPress={() => console.log('You pressed: ' + drug.name)}/>
+  }.bind(this))
+}
 
-  render(){
-    return(
-      <View style={styles.mainView}>
+render() {
+  return (<View style={styles.mainView}>
 
-        <ScrollView style={styles.listView}>
-          {this.renderDrugList()}
-        </ScrollView>
+    <ScrollView style={styles.listView}>
+      {this.renderDrugList()}
+    </ScrollView>
 
-        <View style={styles.bottomMenuView}>
-          <Swiper showsButtons={false}>
+    <View style={styles.bottomMenuView}>
+      <Swiper showsButtons={false}>
 
-            <View>
-              <Text>Explore</Text>
-            </View>
-
-            <View>
-              <Text>Explore</Text>
-            </View>
-
-          </Swiper>
+        <View>
+          <TouchableOpacity onPress={() => this.changePrice()}>
+            <Text>Explore</Text>
+          </TouchableOpacity>
         </View>
 
+        <View>
+          <Text>Explore</Text>
+        </View>
 
-      </View>
+      </Swiper>
+    </View>
 
-    )
-  }
+  </View>)
+}
 }
 
 const styles = {
-  mainView:{
-    flex:1,
-    flexDirection:'column',
-    justifyContent:'center',
-    alignItems:'center',
-    marginTop:35,
-  },
-  listView:{
-    backgroundColor:'skyblue',
-    width:'100%',
-    height:'80%'
-  },
-  bottomMenuView:{
-    backgroundColor:'steelblue',
-    width:'100%',
-    height:'20%'
-  },
-  swiperSlide: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-  }
+mainView: {
+  flex: 1,
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  marginTop: 35
+},
+listView: {
+  backgroundColor: 'skyblue',
+  width: '100%',
+  height: '80%'
+},
+bottomMenuView: {
+  backgroundColor: 'steelblue',
+  width: '100%',
+  height: '20%'
+},
+swiperSlide: {
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+  backgroundColor: '#fff'
+}
 }
 
 // {

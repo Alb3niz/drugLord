@@ -7,6 +7,10 @@ export default class Drug extends Component {
     super(props)
   }
 
+  changePrice(){
+
+  }
+
   checkPrice() {
     if (!this.props.drug.priceRise) {
       console.log('TRUE ' + this.props.drug.priceRise)
