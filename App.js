@@ -201,7 +201,7 @@ export default class App extends Component {
       },
       {
         name: 'Weed',
-        icon: require('./Images/cocaine.png'),
+        icon: require('./Images/weed.png'),
         price: 5,
         priceVariation: 2,
         minPrice:0,
@@ -211,6 +211,8 @@ export default class App extends Component {
         greenArrow: require('./Images/greenArrow.png'),
         redArrow: require('./Images/redArrow.png')
       },
+    ],
+    myStashList:[
     ]
   }
 
@@ -276,16 +278,38 @@ export default class App extends Component {
     })
   }
 
+  addDrugToStash(drug){
+    this.setState({myStashList: this.state.myStashList.concat(drug)})
+  }
+
+  removeDrugFromStash(drug){
+    console.log('REMOVING: ' + drug.name)
+  }
+
   renderDrugList() {
     return this.state.drugList.map(function(drug, index) {
       if(drug.quantity != 0){
-        return <Drug key={index} drug={drug} onPress={() => console.log('You pressed: ' + drug.name)}/>
+        return <Drug key={index} drug={drug} onPress={() => this.addDrugToStash(drug)}/>
       }
     }.bind(this))
   }
 
+  renderMyStash(){
+    return this.state.myStashList.map(function(drug, index){
+      return <Drug key={index} drug={drug} onPress={() => this.removeDrugFromStash(drug)}/>
+    }.bind(this))
+  }
+
+  renderLog(){
+
+  }
+
   render() {
     return (<View style={styles.mainView}>
+
+      <ScrollView style={styles.logView}>
+        {this.renderLog()}
+      </ScrollView>
 
       <ScrollView style={styles.listView}>
         {this.renderDrugList()}
@@ -299,6 +323,12 @@ export default class App extends Component {
         </View>
       </View>
 
+      <ScrollView style={styles.myStashView}>
+        {this.renderMyStash()}
+      </ScrollView>
+
+
+
     </View>)
   }
 }
@@ -309,17 +339,35 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 35
+    marginTop: 20
+  },
+  logView:{
+    backgroundColor:'powderblue',
+    width:'100%',
+    height:'15%',
+    borderWidth:0.5,
+    borderColor:'grey'
   },
   listView: {
     backgroundColor: 'skyblue',
     width: '100%',
-    height: '80%'
+    height: '50%',
+    borderWidth:0.5,
+    borderColor:'grey'
+  },
+  myStashView:{
+    backgroundColor:'blanchedalmond',
+    width:'100%',
+    height:'20%',
+    borderWidth:0.5,
+    borderColor:'grey'
   },
   bottomMenuView: {
     backgroundColor: 'steelblue',
     width: '100%',
-    height: '20%'
+    height: '15%',
+    borderWidth:0.5,
+    borderColor:'grey'
   },
   swiperSlide: {
     flex: 1,
