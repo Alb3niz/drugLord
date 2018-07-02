@@ -9,14 +9,11 @@ export default class Drug extends Component {
 
   checkPrice() {
     if (this.props.drug.priceRise === false) {
-      console.log(this.props.drug.name + ' is -')
       return <View style={styles.arrowView}><Image style={styles.arrowImageStyle} source={this.props.drug.redArrow}/></View>
     }
     if(this.props.drug.priceRise === true){
-      console.log(this.props.drug.name + ' is +')
       return <View style={styles.arrowView}><Image style={styles.arrowImageStyle} source={this.props.drug.greenArrow}/></View>
     }else {
-      console.log(this.props.drug.name + ' is the same')
       return <View style={styles.arrowView}><Image style={styles.arrowImageStyle} source={require('../../Images/empty.png')}/></View>
     }
   }

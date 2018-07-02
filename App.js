@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {View, Text, ScrollView, TouchableOpacity} from 'react-native'
 import Swiper from 'react-native-swiper'
 import Drug from './Components/Common/Drug'
+import BuyDrugDialog from './Components/Common/BuyDrugDialog'
 
 export default class App extends Component {
 
@@ -213,7 +214,15 @@ export default class App extends Component {
       },
     ],
     myStashList:[
-    ]
+    ],
+    dialogEnabled: false
+  }
+  openDialog(){
+    this.setState({dialogEnabled: true})
+  }
+
+  closeDialog(){
+    this.setState({dialogEnabled: false})
   }
 
   componentWillMount(){
@@ -221,7 +230,6 @@ export default class App extends Component {
   }
 
   changePrice() {
-    console.log('*******************Changing Prices*******************')
     this.setState((previousState) => {
       previousState.drugList.forEach((drug) => {
 
@@ -266,7 +274,6 @@ export default class App extends Component {
   }
 
   setInitialDrugQuantity(){
-    console.log('*******************Changing Quantities*******************')
     this.setState((previousState) => {
       previousState.drugList.forEach((drug) => {
         var randomNumber = Math.floor(Math.random() * 2) + 1
@@ -279,11 +286,13 @@ export default class App extends Component {
   }
 
   addDrugToStash(drug){
+    console.log('BUYING: ' + drug.name)
     this.setState({myStashList: this.state.myStashList.concat(drug)})
   }
 
-  removeDrugFromStash(drug){
+  removeDrugFromStash(drug, index){
     console.log('REMOVING: ' + drug.name)
+    this.setState(this.state.myStashList.splice(index, 1))
   }
 
   renderDrugList() {
@@ -296,7 +305,7 @@ export default class App extends Component {
 
   renderMyStash(){
     return this.state.myStashList.map(function(drug, index){
-      return <Drug key={index} drug={drug} onPress={() => this.removeDrugFromStash(drug)}/>
+      return <Drug key={index} drug={drug} onPress={() => this.removeDrugFromStash(drug, index)}/>
     }.bind(this))
   }
 
@@ -318,7 +327,10 @@ export default class App extends Component {
       <View style={styles.bottomMenuView}>
         <View>
           <TouchableOpacity onPress={() => this.changePrice()}>
-            <Text>Explore</Text>
+            <Text>Next Day</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.openDialog()}>
+            <Text>Open Modal</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -327,6 +339,7 @@ export default class App extends Component {
         {this.renderMyStash()}
       </ScrollView>
 
+      <BuyDrugDialog />
 
 
     </View>)
