@@ -10,25 +10,18 @@ export default class BuyDrugDialog extends Component {
   state = {
     sliderValue: 0,
     totalPrice: 0,
-    testDrug:[
-      {
-        name: 'Heroin',
-        price: 1276,
-        quantity:28,
-      }
-    ]
   }
 
   calculateTotalPrice(){
-    this.setState({totalPrice: this.state.sliderValue * this.state.testDrug[0].price})
+    this.setState({totalPrice: this.state.sliderValue * this.props.drugPrice})
   }
 
   render(){
     return(
       <View style={styles.containerViewStyle}>
-        <Text style={styles.titleStyle}>Buy {this.state.testDrug[0].name}</Text>
+        <Text style={styles.titleStyle}>Buy {this.props.drugName}</Text>
 
-        <Text style={styles.textStyle}>Quantity: {this.state.sliderValue}</Text>
+        <Text style={styles.textStyle}>Quantity: {this.props.drugQuantity}</Text>
 
         <Text style={styles.greenTextStyle}>$ : {this.state.totalPrice}</Text>
 
@@ -37,7 +30,7 @@ export default class BuyDrugDialog extends Component {
           thumbStyle={styles.sliderThumbStyle}
           minimumTrackTintColor='#eecba8'
           minimumValue={0}
-          maximumValue={this.state.testDrug[0].quantity}
+          maximumValue={this.props.drugQuantity}
           step={1}
           onValueChange={sliderValue => {
             this.setState({sliderValue})
@@ -46,10 +39,10 @@ export default class BuyDrugDialog extends Component {
         />
 
         <View style={styles.buttonsContainerStyle}>
-          <TouchableOpacity style={styles.buttonStyle} onPress={()=>console.log('closing dialog...')}>
+          <TouchableOpacity style={styles.buttonStyle} onPress={this.props.buyDrug}>
             <Text style={styles.buttonTextStyle}>Buy</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.buttonStyle} onPress={()=>console.log('closing dialog...')}>
+          <TouchableOpacity style={styles.buttonStyle} onPress={this.props.hideDialog}>
             <Text style={styles.buttonTextStyle}>Cancel</Text>
           </TouchableOpacity>
         </View>

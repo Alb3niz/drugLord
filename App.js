@@ -215,19 +215,35 @@ export default class App extends Component {
     ],
     myStashList:[
     ],
-    dialogEnabled: false
+    dialogEnabled: false,
+    drugToBuy:[]
   }
-  openDialog(){
-    this.setState({dialogEnabled: true})
-  }
-
-  closeDialog(){
-    this.setState({dialogEnabled: false})
-  }
-
   componentWillMount(){
     this.setInitialDrugQuantity()
   }
+  removeDrugFromStash(drug, index){
+    console.log('REMOVING: ' + drug.name)
+    this.setState(this.state.myStashList.splice(index, 1))
+  }
+
+  renderBuyDrugDialog(drug){
+    if(this.state.dialogEnabled){
+      return <BuyDrugDialog
+        drugName={drug.name}
+        drugQuantity={drug.quantity}
+        drugPrice={drug.price}
+        hideDialog={()=> this.cancelBuyDrugDialog()}
+        buyDrug={()=> this.addDrugToStash(drug)}
+       />
+    }
+  }
+  showBuyDrugDialog(){
+    this.setState({dialogEnabled: true})
+  }
+  cancelBuyDrugDialog(){
+    this.setState({dialogEnabled: false})
+  }
+
 
   changePrice() {
     this.setState((previousState) => {
@@ -287,18 +303,20 @@ export default class App extends Component {
 
   addDrugToStash(drug){
     console.log('BUYING: ' + drug.name)
+    this.setState({dialogEnabled: true})
     this.setState({myStashList: this.state.myStashList.concat(drug)})
-  }
-
-  removeDrugFromStash(drug, index){
-    console.log('REMOVING: ' + drug.name)
-    this.setState(this.state.myStashList.splice(index, 1))
+    this.cancelBuyDrugDialog()
   }
 
   renderDrugList() {
     return this.state.drugList.map(function(drug, index) {
       if(drug.quantity != 0){
-        return <Drug key={index} drug={drug} onPress={() => this.addDrugToStash(drug)}/>
+        return <Drug key={index} drug={drug} onPress={() => {
+          // this.addDrugToStash(drug)
+          this.setState({drugToBuy: drug})
+          this.showBuyDrugDialog()
+          this.renderBuyDrugDialog(this.state.drugToBuy)
+        }}/>
       }
     }.bind(this))
   }
@@ -329,7 +347,7 @@ export default class App extends Component {
           <TouchableOpacity onPress={() => this.changePrice()}>
             <Text>Next Day</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.openDialog()}>
+          <TouchableOpacity onPress={() => console.log('Hello')}>
             <Text>Open Modal</Text>
           </TouchableOpacity>
         </View>
@@ -339,10 +357,11 @@ export default class App extends Component {
         {this.renderMyStash()}
       </ScrollView>
 
-      <BuyDrugDialog />
+      {this.renderBuyDrugDialog(this.state.drugToBuy)}
 
 
     </View>)
+
   }
 }
 
